@@ -79,13 +79,26 @@ define(function(require) {
         },
 
         calculateWidths: function() {
-            var slideWidth = this.$('.narrative-slide-container').width();
+          var cssGraphicWidth = parseInt(this.$('.narrative-slider-graphic').css('width'), 10);
+          var calculatedWidth =  this.$('.narrative-slide-container').width();
+
+          var showText = this.model.get('_showText');
+
+          var widthRatio = cssGraphicWidth / calculatedWidth;
+          var slideWidth =  calculatedWidth / (showText ? 1 : widthRatio);
+
+          this.$('.narrative-slide-container').width(slideWidth);
+
+          // var slideWidth = this.$('.narrative-slide-container').width();
+          this.$('.narrative-slider-graphic').width(slideWidth);
+
+
             var slideCount = this.model.get('_itemCount');
             var marginRight = this.$('.narrative-slider-graphic').css('margin-right');
             var extraMargin = marginRight === '' ? 0 : parseInt(marginRight);
             var fullSlideWidth = (slideWidth + extraMargin) * slideCount;
 
-            this.$('.narrative-slider-graphic').width(slideWidth);
+
             this.$('.narrative-strapline-header').width(slideWidth);
             this.$('.narrative-strapline-title').width(slideWidth);
 
@@ -132,7 +145,7 @@ define(function(require) {
         replaceWithHotgraphic: function() {
             if (!Adapt.componentStore.hotgraphic) throw "Hotgraphic not included in build";
             var Hotgraphic = Adapt.componentStore.hotgraphic;
-            
+
             var model = this.prepareHotgraphicModel();
             var newHotgraphic = new Hotgraphic({ model: model });
             var $container = $(".component-container", $("." + this.model.get("_parentId")));
@@ -266,7 +279,7 @@ define(function(require) {
         evaluateCompletion: function() {
             if (this.getVisitedItems().length === this.model.get('_items').length) {
                 this.trigger('allItems');
-            } 
+            }
         },
 
         moveElement: function($element, deltaX) {
@@ -306,7 +319,7 @@ define(function(require) {
             stage = (stage + numberOfItems) % numberOfItems;
             this.setStage(stage);
         },
-        
+
         onProgressClicked: function(event) {
             event.preventDefault();
             var clickedIndex = $(event.target).index();

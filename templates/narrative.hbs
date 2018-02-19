@@ -3,13 +3,15 @@
     {{> component this}}
     <div class="narrative-widget component-widget {{#if _hasNavigationInTextArea}}narrative-text-controls{{/if}}">
 
+        {{#if _showText}}
+
         <div class="narrative-content">
             <div class="narrative-content-inner">
                 {{#each _items}}
                 <div class="narrative-content-item">
                     {{#if _graphic.alt}}{{{a11y_aria_label _graphic.alt}}}{{/if}}
                     <div class="narrative-content-title">
-                        <div class="narrative-content-title-inner h5" role="heading" aria-level="5" tabindex="0">
+                        <div class="narrative-content-title-inner accessible-text-block h5" role="heading" aria-level="5" tabindex="0">
                             {{{title}}}
                         </div>
                     </div>
@@ -36,13 +38,14 @@
             </div>
         </div>
 
+
         <div class="narrative-strapline">
             <div class="narrative-strapline-header">
                 <div class="narrative-strapline-header-inner clearfix">
                     <div></div>
                     {{#each _items}}
                     <button role="button" class="base narrative-strapline-title" aria-label="{{{strapline}}}">
-                        <div class="narrative-strapline-title-inner h5">
+                        <div class="narrative-strapline-title-inner accessible-text-block h5">
                             {{{strapline}}}
                         </div>
                         <div class="icon icon-plus"></div>
@@ -52,6 +55,7 @@
                 </div>
             </div>
         </div>
+        {{/if}}
 
         <div class="narrative-slide-container">
 
